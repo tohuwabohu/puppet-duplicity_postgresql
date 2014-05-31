@@ -5,6 +5,7 @@ describe 'duplicity_postgresql::database' do
   let(:facts) { {:concat_basedir => '/path/to/dir'} }
   let(:dump_script) { '/usr/local/sbin/dump-postgresql-database.sh' }
   let(:dump_file) { '/var/backups/postgresql/example.sql.gz' }
+  let(:restore_script) { '/usr/local/sbin/restore-postgresql-database.sh' }
 
   describe 'by default' do
     let(:params) { {} }
@@ -20,6 +21,15 @@ describe 'duplicity_postgresql::database' do
         'profile' => 'backup'
       ) 
     }
+    specify { should contain_exec("#{restore_script} example") }
+  end
+
+  describe 'should accept ensure => backup' do
+    let(:params) { {:ensure => 'backup'} }
+
+    specify { should contain_duplicity__profile_exec_before('backup/postgresql/example').with_ensure('present') }
+    specify { should contain_duplicity__file(dump_file).with_ensure('backup') }
+    specify { should_not contain_exec("#{restore_script} example") }
   end
 
   describe 'should accept ensure => absent' do
@@ -27,6 +37,7 @@ describe 'duplicity_postgresql::database' do
 
     specify { should contain_duplicity__profile_exec_before('backup/postgresql/example').with_ensure('absent') }
     specify { should contain_duplicity__file(dump_file).with_ensure('absent') }
+    specify { should_not contain_exec("#{restore_script} example") }
   end
 
   describe 'should not accept invalid ensure' do

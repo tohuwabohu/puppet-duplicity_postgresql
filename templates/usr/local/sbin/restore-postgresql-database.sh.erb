@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# This file is managed by Puppet
+
+if [ -z "$1" ]; then
+  echo "usage: $0 <database>" 1>2&
+  exit 1
+fi
+
+if [ "$EUID" -ne "0" ]; then
+  echo "This script must be run as root." 1>2&
+  exit 2
+fi
+
+DATABASE="$1"
+DUMP_FILE="<%= @backup_dir %>/$DATABASE.sql.gz"
+
+ps cax | grep postgres > /dev/null
+if [ $? -eq 0 ]; then
+  zcat "$DUMP_FILE" | sudo -i -u postgres psql --no-password -d "$DATABASE" -f -
+else
+  echo "PostgreSQL server not running - import of database ${DATABASE} aborted." 1>2&
+  exit 3
+fi

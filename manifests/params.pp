@@ -20,8 +20,21 @@ class duplicity_postgresql::params {
     default => '/usr/local/sbin/dump-postgresql-database.sh'
   }
 
+  $check_script_template = 'duplicity_postgresql/usr/local/sbin/check-postgresql-database.sh.erb'
+  $check_script_path = $::osfamily ? {
+    default => '/usr/local/sbin/check-postgresql-database.sh'
+  }
+
+  $restore_script_template = 'duplicity_postgresql/usr/local/sbin/restore-postgresql-database.sh.erb'
+  $restore_script_path = $::osfamily ? {
+    default => '/usr/local/sbin/restore-postgresql-database.sh'
+  }
+
   $postgresql_client_package_name = $::osfamily ? {
     default => 'postgresql-client'
+  }
+  $grep_package_name = $::osfamily ? {
+    default => 'grep'
   }
   $gzip_package_name = $::osfamily ? {
     default => 'gzip'

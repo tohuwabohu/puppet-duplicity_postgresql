@@ -36,7 +36,6 @@ define duplicity_postgresql::database(
     fail("Duplicity_Postgresql::Database[${title}]: profile must not be empty")
   }
 
-  $dump_script_path = $duplicity_postgresql::dump_script_path
   $dump_file = "${duplicity_postgresql::backup_dir}/${database}.sql.gz"
   $exec_before_ensure = $ensure ? {
     absent  => absent,
@@ -46,12 +45,19 @@ define duplicity_postgresql::database(
   duplicity::profile_exec_before { "${profile}/postgresql/${database}":
     ensure  => $exec_before_ensure,
     profile => $profile,
-    content => "${dump_script_path} ${database}",
+    content => "${duplicity_postgresql::dump_script_path} ${database}",
     order   => '10',
   }
 
   duplicity::file { $dump_file:
     ensure  => $ensure,
     profile => $profile
+  }
+
+  if $ensure == present {
+    exec { "${duplicity_postgresql::restore_script_path} ${database}":
+      onlyif  => "${duplicity_postgresql::check_script_path} ${database}",
+      require => Duplicity::File[$dump_file],
+    }
   }
 }
