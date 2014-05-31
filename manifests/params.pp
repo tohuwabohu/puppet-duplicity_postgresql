@@ -15,7 +15,7 @@ class duplicity_postgresql::params {
     default => '/var/backups/postgresql'
   }
 
-  $dump_script_template = 'duplicity/usr/local/sbin/dump-postgresql-database.sh.erb'
+  $dump_script_template = 'duplicity_postgresql/usr/local/sbin/dump-postgresql-database.sh.erb'
   $dump_script_path = $::osfamily ? {
     default => '/usr/local/sbin/dump-postgresql-database.sh'
   }
