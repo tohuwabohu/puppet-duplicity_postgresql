@@ -36,15 +36,17 @@ define duplicity_postgresql::database(
     fail("Duplicity_Postgresql::Database[${title}]: profile must not be empty")
   }
 
-  $profile_dir = "${duplicity::params::duply_config_dir}/${profile}"
-  $profile_pre_script = "${profile_dir}/${duplicity::params::duply_profile_pre_script_name}"
-  $profile_filelist = "${profile_dir}/${duplicity::params::duply_profile_filelist_name}"
   $dump_script_path = $duplicity_postgresql::dump_script_path
   $dump_file = "${duplicity_postgresql::backup_dir}/${database}.sql.gz"
+  $exec_before_ensure = $ensure ? {
+    absent  => absent,
+    default => present,
+  }
 
-  concat::fragment { "${profile_pre_script}/postgresql/${database}":
-    target  => $profile_pre_script,
-    content => "${dump_script_path} ${database}\n",
+  duplicity::profile_exec_before { "${profile}/postgresql/${database}":
+    ensure  => $exec_before_ensure,
+    profile => $profile,
+    content => "${dump_script_path} ${database}",
     order   => '10',
   }
 

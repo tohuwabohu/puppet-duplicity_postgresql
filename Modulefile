@@ -8,5 +8,5 @@ summary 'Backup and restore PostgreSQL databases based on duplicity'
 description ''
 
 dependency 'example42/puppi', '2.x'
-dependency 'puppetlabs/concat', '>= 1.1.0 < 2.0.0'
+dependency 'tohuwabohu/duplicity', '1.x'
 dependency 'puppetlabs/stdlib', '4.x'

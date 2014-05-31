@@ -5,7 +5,7 @@ fixtures:
       ref: "1.1.0"
     duplicity:
       repo: "https://github.com/tohuwabohu/tohuwabohu-duplicity.git"
-      ref: "52d785b3a68399cda1950a33c21c3a046831d213"
+      ref: "250299e22a6a626ae4695c1780ede83d272bc5e4"
     puppi:
       repo: "https://github.com/example42/puppi.git"
       ref: "v2.1.9"
