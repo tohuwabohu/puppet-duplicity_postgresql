@@ -20,7 +20,7 @@ QUERY="SELECT COUNT(*) FROM pg_stat_user_tables;"
 
 ps cax | grep -q postgres > /dev/null
 if [ $? -eq 0 ]; then
-  sudo -i -u postgres psql -q --tuples-only --no-align -c "$QUERY" -d $DATABASE | grep -qw 0
+  sudo -i -u postgres psql -q --tuples-only --no-align --no-password -c "$QUERY" -d $DATABASE | grep -qw 0
 else
   echo "PostgreSQL server not running - check of database ${DATABASE} aborted." 1>2&
   exit 3
