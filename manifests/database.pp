@@ -25,7 +25,7 @@
 define duplicity_postgresql::database(
   $ensure = present,
   $database = $title,
-  $profile = 'backup',
+  $profile = 'system',
 ) {
   require duplicity_postgresql
 

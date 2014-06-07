@@ -10,15 +10,15 @@ describe 'duplicity_postgresql::database' do
   describe 'by default' do
     let(:params) { {} }
 
-    specify { should contain_duplicity__profile_exec_before('backup/postgresql/example').with(
+    specify { should contain_duplicity__profile_exec_before('system/postgresql/example').with(
         'ensure'  => 'present',
-        'profile' => 'backup',
+        'profile' => 'system',
         'content' => "#{dump_script} example"
       )
     }
     specify { should contain_duplicity__file(dump_file).with(
         'ensure'  => 'present',
-        'profile' => 'backup'
+        'profile' => 'system'
       ) 
     }
     specify { should contain_exec("#{restore_script} example") }
@@ -27,7 +27,7 @@ describe 'duplicity_postgresql::database' do
   describe 'should accept ensure => backup' do
     let(:params) { {:ensure => 'backup'} }
 
-    specify { should contain_duplicity__profile_exec_before('backup/postgresql/example').with_ensure('present') }
+    specify { should contain_duplicity__profile_exec_before('system/postgresql/example').with_ensure('present') }
     specify { should contain_duplicity__file(dump_file).with_ensure('backup') }
     specify { should_not contain_exec("#{restore_script} example") }
   end
@@ -35,7 +35,7 @@ describe 'duplicity_postgresql::database' do
   describe 'should accept ensure => absent' do
     let(:params) { {:ensure => 'absent'} }
 
-    specify { should contain_duplicity__profile_exec_before('backup/postgresql/example').with_ensure('absent') }
+    specify { should contain_duplicity__profile_exec_before('system/postgresql/example').with_ensure('absent') }
     specify { should contain_duplicity__file(dump_file).with_ensure('absent') }
     specify { should_not contain_exec("#{restore_script} example") }
   end
@@ -48,13 +48,13 @@ describe 'duplicity_postgresql::database' do
     }
   end
 
-  describe 'with profile => system' do
-    let(:params) { {:profile => 'system'} }
+  describe 'with profile => backup' do
+    let(:params) { {:profile => 'backup'} }
 
     specify {
-      should contain_duplicity__profile_exec_before('system/postgresql/example').with(
+      should contain_duplicity__profile_exec_before('backup/postgresql/example').with(
         'ensure'  => 'present',
-        'profile' => 'system',
+        'profile' => 'backup',
         'content' => "#{dump_script} example"
       )
     }
