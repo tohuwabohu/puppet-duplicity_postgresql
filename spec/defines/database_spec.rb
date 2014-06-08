@@ -67,4 +67,11 @@ describe 'duplicity_postgresql::database' do
       expect { should contain_file(dump_file) }.to raise_error(Puppet::Error, /profile/)
     }
   end
+
+  describe 'with timeout => 60' do
+    let(:params) { {:timeout => 60} }
+
+    specify { should contain_duplicity__file(dump_file).with_timeout(60) }
+    specify { should contain_exec("#{restore_script} example").with_timeout(60) }
+  end
 end
