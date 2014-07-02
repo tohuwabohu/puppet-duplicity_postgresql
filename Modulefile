@@ -6,7 +6,5 @@ author 'Martin Meinhold'
 license 'Apache License, Version 2.0'
 summary 'Backup and restore PostgreSQL databases based on duplicity'
 description ''
-
-dependency 'example42/puppi', '2.x'
 dependency 'tohuwabohu/duplicity', '1.x'
 dependency 'puppetlabs/stdlib', '4.x'

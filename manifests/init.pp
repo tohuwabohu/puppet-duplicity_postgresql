@@ -43,16 +43,16 @@
 # Copyright 2014 Martin Meinhold, unless otherwise noted.
 #
 class duplicity_postgresql(
-  $dump_script_template            = params_lookup('dump_script_template'),
-  $dump_script_path                = params_lookup('dump_script_path'),
-  $check_script_template           = params_lookup('check_script_template'),
-  $check_script_path               = params_lookup('check_script_path'),
-  $restore_script_template         = params_lookup('restore_script_template'),
-  $restore_script_path             = params_lookup('restore_script_path'),
-  $backup_dir                      = params_lookup('backup_dir'),
-  $postgresql_client_package_name  = params_lookup('postgresql_client_package_name'),
-  $grep_package_name               = params_lookup('grep_package_name'),
-  $gzip_package_name               = params_lookup('gzip_package_name'),
+  $dump_script_template            = $duplicity_postgresql::params::dump_script_template,
+  $dump_script_path                = $duplicity_postgresql::params::dump_script_path,
+  $check_script_template           = $duplicity_postgresql::params::check_script_template,
+  $check_script_path               = $duplicity_postgresql::params::check_script_path,
+  $restore_script_template         = $duplicity_postgresql::params::restore_script_template,
+  $restore_script_path             = $duplicity_postgresql::params::restore_script_path,
+  $backup_dir                      = $duplicity_postgresql::params::backup_dir,
+  $postgresql_client_package_name  = $duplicity_postgresql::params::postgresql_client_package_name,
+  $grep_package_name               = $duplicity_postgresql::params::grep_package_name,
+  $gzip_package_name               = $duplicity_postgresql::params::gzip_package_name,
 ) inherits duplicity_postgresql::params {
 
   if empty($dump_script_template) {
