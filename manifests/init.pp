@@ -43,30 +43,17 @@
 # Copyright 2014 Martin Meinhold, unless otherwise noted.
 #
 class duplicity_postgresql(
-  $dump_script_template            = $duplicity_postgresql::params::dump_script_template,
-  $dump_script_path                = $duplicity_postgresql::params::dump_script_path,
-  $check_script_template           = $duplicity_postgresql::params::check_script_template,
-  $check_script_path               = $duplicity_postgresql::params::check_script_path,
-  $restore_script_template         = $duplicity_postgresql::params::restore_script_template,
-  $restore_script_path             = $duplicity_postgresql::params::restore_script_path,
-  $backup_dir                      = $duplicity_postgresql::params::backup_dir,
-  $postgresql_client_package_name  = $duplicity_postgresql::params::postgresql_client_package_name,
-  $grep_package_name               = $duplicity_postgresql::params::grep_package_name,
-  $gzip_package_name               = $duplicity_postgresql::params::gzip_package_name,
+  String $dump_script_template = $duplicity_postgresql::params::dump_script_template,
+  Stdlib::Absolutepath $dump_script_path = $duplicity_postgresql::params::dump_script_path,
+  String $check_script_template = $duplicity_postgresql::params::check_script_template,
+  Stdlib::Absolutepath $check_script_path = $duplicity_postgresql::params::check_script_path,
+  String $restore_script_template = $duplicity_postgresql::params::restore_script_template,
+  Stdlib::Absolutepath $restore_script_path = $duplicity_postgresql::params::restore_script_path,
+  Stdlib::Absolutepath $backup_dir = $duplicity_postgresql::params::backup_dir,
+  String $postgresql_client_package_name = $duplicity_postgresql::params::postgresql_client_package_name,
+  String $grep_package_name = $duplicity_postgresql::params::grep_package_name,
+  String $gzip_package_name = $duplicity_postgresql::params::gzip_package_name,
 ) inherits duplicity_postgresql::params {
-
-  if empty($dump_script_template) {
-    fail('Class[Duplicity_Postgresql]: dump_script_template must not be empty')
-  }
-  validate_absolute_path($dump_script_path)
-  validate_absolute_path($backup_dir)
-  if empty($postgresql_client_package_name) {
-    fail('Class[Duplicity_Postgresql]: postgresql_client_package_name must not be empty')
-  }
-  if empty($gzip_package_name) {
-    fail('Class[Duplicity_Postgresql]: gzip_package_name must not be empty')
-  }
-
   file { $backup_dir:
     ensure => directory,
     owner  => 'root',

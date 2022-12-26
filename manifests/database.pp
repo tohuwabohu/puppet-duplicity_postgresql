@@ -28,19 +28,12 @@
 # Copyright 2014 Martin Meinhold, unless otherwise noted.
 #
 define duplicity_postgresql::database(
-  $ensure   = present,
-  $database = $title,
-  $profile  = 'system',
-  $timeout  = 300,
+  Enum[present,backup,absent] $ensure = present,
+  String $database = $title,
+  String $profile = 'system',
+  Integer $timeout  = 300,
 ) {
   require duplicity_postgresql
-
-  if $ensure !~ /^present|backup|absent$/ {
-    fail("Duplicity_Postgresql::Database[${title}]: ensure must be either present, backup or absent, got '${ensure}'")
-  }
-  if $ensure =~ /^present|backup$/ and empty($profile) {
-    fail("Duplicity_Postgresql::Database[${title}]: profile must not be empty")
-  }
 
   $dump_file = "${duplicity_postgresql::backup_dir}/${database}.sql.gz"
   $exec_before_ensure = $ensure ? {
