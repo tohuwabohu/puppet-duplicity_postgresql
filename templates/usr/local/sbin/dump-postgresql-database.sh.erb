@@ -14,7 +14,7 @@ fi
 
 DATABASE="$1"
 DUMP_FILE="<%= @backup_dir %>/$DATABASE.sql.gz"
-POSTGRES_OPTS="--create --encoding=UTF-8 --format=plain"
+POSTGRES_OPTS="--encoding=UTF-8 --format=plain"
 
 if systemctl is-active postgresql.service; then
   set -e
